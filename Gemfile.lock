@@ -312,8 +312,8 @@ GEM
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
-    shoulda-matchers (6.5.0)
-      activesupport (>= 5.2.0)
+    shoulda-matchers (7.0.1)
+      activesupport (>= 7.1)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -398,7 +398,7 @@ DEPENDENCIES
   rubocop-rails-omakase
   rubocop-rspec (~> 3.3)
   ruby-lsp
-  shoulda-matchers (~> 6.5)
+  shoulda-matchers (~> 7.0)
   simplecov (~> 0.21.2)
   solid_cable
   solid_cache
