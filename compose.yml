@@ -1,0 +1,41 @@
+services:
+  ledger:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: ledger
+    command: bash script/start.sh
+    depends_on:
+      - ledger_db
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle
+    env_file:
+      - .env
+    networks:
+      - ledger_net
+
+  ledger_db:
+    image: "postgres:13"
+    container_name: ledger_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+    networks:
+      - ledger_net
+
+volumes:
+  postgres_data:
+  gem_cache:
+
+networks:
+  ledger_net:
