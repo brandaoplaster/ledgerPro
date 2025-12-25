@@ -27,12 +27,14 @@ RUN chown -R appuser:appuser $INSTALL_PATH
 
 ENV BUNDLE_PATH=/usr/local/bundle
 
+RUN mkdir -p /usr/local/bundle && chown -R appuser:appuser /usr/local/bundle
+
+USER appuser
+
 COPY --chown=appuser:appuser Gemfile Gemfile.lock ./
 RUN bundle install
 
 COPY --chown=appuser:appuser . .
-
-USER appuser
 
 EXPOSE 3000
 
