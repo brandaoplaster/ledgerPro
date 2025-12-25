@@ -314,7 +314,7 @@ GEM
     securerandom (0.4.1)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
-    simplecov (0.21.2)
+    simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
@@ -399,7 +399,7 @@ DEPENDENCIES
   rubocop-rspec (~> 3.3)
   ruby-lsp
   shoulda-matchers (~> 6.5)
-  simplecov (~> 0.21.2)
+  simplecov (~> 0.22.0)
   solid_cable
   solid_cache
   solid_queue

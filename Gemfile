@@ -61,7 +61,7 @@ group :development, :test do
   gem "faker"
   gem "rspec-rails", "~> 7.1", ">= 7.1.1"
   gem "shoulda-matchers", "~> 6.5"
-  gem "simplecov", "~> 0.21.2", require: false
+  gem "simplecov", "~> 0.22.0", require: false
 end
 
 group :development do
