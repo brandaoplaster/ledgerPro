@@ -20,6 +20,23 @@ services:
     networks:
       - ledger_net
 
+  ledger_css:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: ledger_css
+    command: bundle exec rails tailwindcss:watch
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle
+    networks:
+      - ledger_net
+
   ledger_db:
     image: "postgres:13"
     container_name: ledger_db
