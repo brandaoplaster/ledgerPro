@@ -9,6 +9,6 @@ class CreateHoldings < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :holdings, [:wallet_id, :asset_id], unique: true
+    add_index :holdings, [ :wallet_id, :asset_id ], unique: true
   end
 end
