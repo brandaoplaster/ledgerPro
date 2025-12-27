@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :wallet do
-    user { nil }
-    name { "MyString" }
+    name { Faker::Finance.account_name }
+    status { Wallet.statuses.keys.sample.to_sym }
+    association user
   end
 end

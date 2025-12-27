@@ -12,6 +12,6 @@ class CreateTransactions < ActiveRecord::Migration[8.1]
     end
 
     add_index :transactions, :occurred_at
-    add_index :transactions, [:wallet_id, :occurred_at]
+    add_index :transactions, [ :wallet_id, :occurred_at ]
   end
 end

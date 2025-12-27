@@ -1,0 +1,7 @@
+<%= turbo_stream.remove dom_id(@wallet) %>
+
+<%= turbo_stream.update "flash" do %>
+  <div class="bg-red-500 text-white px-6 py-4 rounded-md shadow-lg mb-4 animate-fade-in">
+    ✓ Wallet deleted successfully!
+  </div>
+<% end %>
