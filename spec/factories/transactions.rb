@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :transaction do
     wallet { nil }
-    asset { nil }
+    instrument { nil }
     kind { 1 }
     quantity { "9.99" }
     price { "9.99" }
