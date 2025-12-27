@@ -14,25 +14,25 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "assets", force: :cascade do |t|
+  create_table "holdings", force: :cascade do |t|
+    t.decimal "average_price", precision: 15, scale: 2
+    t.datetime "created_at", null: false
+    t.bigint "instrument_id", null: false
+    t.decimal "quantity", precision: 20, scale: 8
+    t.datetime "updated_at", null: false
+    t.bigint "wallet_id", null: false
+    t.index ["instrument_id"], name: "index_holdings_on_instrument_id"
+    t.index ["wallet_id", "instrument_id"], name: "index_holdings_on_wallet_id_and_instrument_id", unique: true
+    t.index ["wallet_id"], name: "index_holdings_on_wallet_id"
+  end
+
+  create_table "instruments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "kind"
     t.string "name"
     t.string "ticker"
     t.datetime "updated_at", null: false
-    t.index ["ticker"], name: "index_assets_on_ticker", unique: true
-  end
-
-  create_table "holdings", force: :cascade do |t|
-    t.bigint "asset_id", null: false
-    t.decimal "average_price", precision: 15, scale: 2
-    t.datetime "created_at", null: false
-    t.decimal "quantity", precision: 20, scale: 8
-    t.datetime "updated_at", null: false
-    t.bigint "wallet_id", null: false
-    t.index ["asset_id"], name: "index_holdings_on_asset_id"
-    t.index ["wallet_id", "asset_id"], name: "index_holdings_on_wallet_id_and_asset_id", unique: true
-    t.index ["wallet_id"], name: "index_holdings_on_wallet_id"
+    t.index ["ticker"], name: "index_instruments_on_ticker", unique: true
   end
 
   create_table "strategies", force: :cascade do |t|
@@ -53,15 +53,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.bigint "asset_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "instrument_id", null: false
     t.integer "kind"
     t.datetime "occurred_at"
     t.decimal "price", precision: 15, scale: 2
     t.decimal "quantity", precision: 15, scale: 2
     t.datetime "updated_at", null: false
     t.bigint "wallet_id", null: false
-    t.index ["asset_id"], name: "index_transactions_on_asset_id"
+    t.index ["instrument_id"], name: "index_transactions_on_instrument_id"
     t.index ["occurred_at"], name: "index_transactions_on_occurred_at"
     t.index ["wallet_id", "occurred_at"], name: "index_transactions_on_wallet_id_and_occurred_at"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
@@ -89,11 +89,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
     t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
-  add_foreign_key "holdings", "assets"
+  add_foreign_key "holdings", "instruments"
   add_foreign_key "holdings", "wallets"
   add_foreign_key "strategies", "wallets"
   add_foreign_key "strategy_rules", "strategies"
-  add_foreign_key "transactions", "assets"
+  add_foreign_key "transactions", "instruments"
   add_foreign_key "transactions", "wallets"
   add_foreign_key "wallets", "users"
 end

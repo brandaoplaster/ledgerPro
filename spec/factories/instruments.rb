@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :asset do
+  factory :instruments do
     ticker { "MyString" }
     name { "MyString" }
     kind { "MyString" }
