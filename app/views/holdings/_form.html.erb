@@ -1,0 +1,63 @@
+<%= form_with(model: [@wallet, holding], class: "space-y-4") do |form| %>
+  <% if holding.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
+      <h3 class="font-bold mb-2"><%= pluralize(holding.errors.count, "error") %> found:</h3>
+      <ul class="list-disc list-inside">
+        <% holding.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :instrument_id, "Instrument", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.collection_select :instrument_id,
+                               Instrument.order(:name),
+                               :id,
+                               :name,
+                               { include_blank: "Select an instrument" },
+                               class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" %>
+  </div>
+
+  <div>
+    <%= form.label :quantity, "Quantity", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.text_field :quantity,
+                        class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500",
+                        placeholder: "e.g. 10.5 or 0.0034",
+                        inputmode: "decimal",
+                        autocomplete: "off",
+                        data: {
+                          controller: "number-input",
+                          action: "keydown->number-input#keydown input->number-input#validate blur->number-input#blur"
+                        } %>
+    <p class="mt-1 text-sm text-gray-500">Number of shares/units (decimals allowed)</p>
+  </div>
+
+  <div>
+    <%= form.label :average_price, "Average Price", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.text_field :average_price,
+                        class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500",
+                        placeholder: "e.g. 150.75 or 0.00042",
+                        inputmode: "decimal",
+                        autocomplete: "off",
+                        data: {
+                          controller: "number-input",
+                          action: "keydown->number-input#keydown input->number-input#validate blur->number-input#blur"
+                        } %>
+    <p class="mt-1 text-sm text-gray-500">Price per unit in your currency</p>
+  </div>
+
+
+
+
+  <div class="flex gap-3 pt-4">
+    <%= form.submit "Save",
+                    class: "flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+
+    <%= link_to "Cancel",
+                wallet_holdings_path(@wallet),
+                class: "flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded text-center",
+                data: { turbo_frame: "_top" } %>
+  </div>
+<% end %>

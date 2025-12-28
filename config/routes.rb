@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 
 
   authenticate :user do
-    resources :wallets
+    resources :wallets do
+      resources :holdings
+    end
+
     resources :instruments
   end
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
