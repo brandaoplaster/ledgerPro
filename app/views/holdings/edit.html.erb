@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Edit Holding</h2>
+        <%= link_to wallet_holdings_path(@wallet),
+                    class: "text-gray-400 hover:text-gray-600",
+                    data: { turbo_frame: "_top" } do %>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        <% end %>
+      </div>
+
+      <%= render "form", holding: @holding %>
+    </div>
+  </div>
+<% end %>

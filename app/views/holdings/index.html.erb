@@ -1,0 +1,78 @@
+<div class="w-full px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <%= link_to wallets_path, class: "text-gray-500 hover:text-gray-700" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+        <% end %>
+        <h1 class="text-4xl font-bold text-gray-900">Holdings - <%= @wallet.name %></h1>
+      </div>
+      <p class="text-gray-600">Manage your portfolio holdings</p>
+    </div>
+
+    <%= link_to new_wallet_holding_path(@wallet),
+                class: "inline-flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200",
+                data: { turbo_frame: "modal" } do %>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
+      New Holding
+    <% end %>
+  </div>
+
+  <%= turbo_frame_tag "modal" %>
+
+  <% if @holdings.any? %>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full divide-y divide-gray-200">
+          <thead class="bg-gradient-to-r from-yellow-400 to-yellow-500">
+            <tr>
+              <th scope="col" class="px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
+                Ticker
+              </th>
+              <th scope="col" class="px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
+                Instrument
+              </th>
+              <th scope="col" class="px-6 py-4 text-right text-sm font-bold text-white uppercase tracking-wider">
+                Quantity
+              </th>
+              <th scope="col" class="px-6 py-4 text-right text-sm font-bold text-white uppercase tracking-wider">
+                Avg Price
+              </th>
+              <th scope="col" class="px-6 py-4 text-right text-sm font-bold text-white uppercase tracking-wider">
+                Total Value
+              </th>
+              <th scope="col" class="px-6 py-4 text-center text-sm font-bold text-white uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody id="holdings" class="bg-white divide-y divide-gray-200">
+            <%= render @holdings %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="inline-block p-6 bg-gray-100 rounded-full mb-4">
+        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-700 mb-2">No holdings yet</h3>
+      <p class="text-gray-500 mb-6">Start building your portfolio!</p>
+      <%= link_to new_wallet_holding_path(@wallet),
+                  class: "inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200",
+                  data: { turbo_frame: "modal" } do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Add First Holding
+      <% end %>
+    </div>
+  <% end %>
+</div>
