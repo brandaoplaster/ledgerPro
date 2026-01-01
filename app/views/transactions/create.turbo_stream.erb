@@ -1,2 +1,2 @@
-<%= turbo_stream.prepend "transaction", @transaction %>
+<%= turbo_stream.prepend "transactions", partial: "transactions/transaction", locals: { transaction: @transaction } %>
 <%= turbo_stream.update "modal", "" %>
