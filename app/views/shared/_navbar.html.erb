@@ -1,0 +1,47 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-gray-950/95 via-gray-900/95 to-gray-900/90 backdrop-blur-lg border-b border-gray-800/50 shadow-xl shadow-black/20">
+  <div class="px-6 lg:px-16 max-w-[1400px] mx-auto">
+    <div class="flex justify-between items-center h-20">
+      <%= link_to root_path, class: "flex items-center gap-3 group" do %>
+        <div class="flex items-center gap-3 group">
+          <div class="relative">
+            <div class="absolute inset-0 bg-yellow-500/20 rounded-xl blur-lg group-hover:bg-yellow-500/30 transition-all"></div>
+            <div class="w-8 h-8 rounded-md bg-yellow-500 flex items-center justify-center">
+              <span class="text-black font-bold text-sm">LP</span>
+            </div>
+          </div>
+          <div>
+            <span class="text-xl font-bold text-white tracking-tight">Ledger Pro</span>
+            <div class="h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-yellow-500 to-transparent transition-all duration-300"></div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="flex items-center gap-6">
+        <% if user_signed_in? %>
+          <%= link_to wallets_path,
+              class: "group flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-all" do %>
+            <svg class="w-4 h-4 text-gray-400 group-hover:text-yellow-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">My Wallets</span>
+          <% end %>
+          <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete },
+              class: "text-sm font-medium text-gray-400 hover:text-gray-200 px-4 py-2 rounded-lg hover:bg-white/5 transition-all" %>
+        <% else %>
+          <%= link_to "Sign in", new_user_session_path,
+              class: "text-sm font-medium text-gray-300 hover:text-white px-5 py-2.5 rounded-lg hover:bg-white/5 transition-all" %>
+          <%= link_to new_user_registration_path,
+              class: "group relative" do %>
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition-opacity"></div>
+            <div class="relative flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 px-6 py-2.5 rounded-lg shadow-lg shadow-yellow-500/25">
+              <span class="text-sm font-bold text-gray-900">Get Started</span>
+              <svg class="w-4 h-4 text-gray-900 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
