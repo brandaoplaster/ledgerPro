@@ -24,11 +24,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-900 flex flex-col min-h-screen overflow-y-auto">
-    <%= render "shared/navbar" %>
-    <main class="pt-20 pb-8 min-h-screen">
-      <%= yield %>
-    </main>
-    <%= render "shared/footer" %>
-  </body>
+  <body class="bg-gray-50">
+     <div class="flex h-screen overflow-hidden">
+       <%= render "shared/dashboard/sidebar" %>
+       <div class="flex-1 flex flex-col overflow-hidden">
+         <%= render "shared/dashboard/topbar" %>
+         <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+           <%= yield %>
+         </main>
+       </div>
+     </div>
+   </body>
 </html>
