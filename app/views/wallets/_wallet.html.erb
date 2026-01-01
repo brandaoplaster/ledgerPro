@@ -1,20 +1,22 @@
 <%= turbo_frame_tag dom_id(wallet) do %>
   <div class="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
-    <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-4">
-      <div class="flex justify-between items-center">
-        <h3 class="text-2xl font-bold text-white truncate"><%= wallet.name %></h3>
+    <%= link_to wallet_path(wallet), data: { turbo_frame: "_top" } do %>
+      <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-bold text-white truncate"><%= wallet.name %></h3>
 
-        <% if wallet.active? %>
-          <span class="bg-white text-green-600 text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
-            ✓ Active
-          </span>
-        <% else %>
-          <span class="bg-white text-gray-600 text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
-            ✕ Inactive
-          </span>
-        <% end %>
+          <% if wallet.active? %>
+            <span class="bg-white text-green-600 text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
+              ✓ Active
+            </span>
+          <% else %>
+            <span class="bg-white text-gray-600 text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
+              ✕ Inactive
+            </span>
+          <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="px-6 py-6">
       <div class="mb-6 space-y-3">
