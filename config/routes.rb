@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
 
   authenticate :user do
+    get "dashboard", to: "dashboard#index"
+
     resources :wallets do
       resources :holdings
     end
