@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
     resources :wallets do
       resources :holdings
+      resources :transactions
     end
 
     resources :instruments
