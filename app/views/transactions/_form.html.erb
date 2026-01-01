@@ -1,0 +1,117 @@
+<%= form_with(model: [@wallet, transaction], class: "space-y-6") do |form| %>
+  <% if transaction.errors.any? %>
+    <div class="rounded-lg bg-red-50 border border-red-200 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc list-inside space-y-1">
+              <% transaction.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :kind, class: "block text-sm font-semibold text-gray-900 mb-3" do %>
+      Transaction Type
+      <span class="text-red-500">*</span>
+    <% end %>
+    <div class="grid grid-cols-2 gap-4">
+      <label class="relative flex cursor-pointer rounded-lg border-2 border-gray-300 bg-white p-5 shadow-sm hover:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-500 focus-within:ring-offset-2 peer-checked:border-yellow-500">
+        <%= form.radio_button :kind, 'buy', class: "sr-only peer" %>
+        <span class="flex flex-1 items-center">
+          <span class="flex flex-col">
+            <span class="block text-base font-semibold text-gray-900">Buy</span>
+            <span class="mt-1 text-sm text-gray-500">Acquire assets</span>
+          </span>
+        </span>
+        <svg class="h-6 w-6 text-yellow-600 opacity-0 peer-checked:opacity-100 absolute top-4 right-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+      </label>
+
+      <label class="relative flex cursor-pointer rounded-lg border-2 border-gray-300 bg-white p-5 shadow-sm hover:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-500 focus-within:ring-offset-2">
+        <%= form.radio_button :kind, 'sell', class: "sr-only peer" %>
+        <span class="flex flex-1 items-center">
+          <span class="flex flex-col">
+            <span class="block text-base font-semibold text-gray-900">Sell</span>
+            <span class="mt-1 text-sm text-gray-500">Dispose assets</span>
+          </span>
+        </span>
+        <svg class="h-6 w-6 text-yellow-600 opacity-0 peer-checked:opacity-100 absolute top-4 right-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :instrument_id, class: "block text-sm font-semibold text-gray-900 mb-2" do %>
+      Instrument
+      <span class="text-red-500">*</span>
+    <% end %>
+    <%= form.collection_select :instrument_id,
+                               Instrument.order(:ticker),
+                               :id,
+                               :ticker,
+                               { include_blank: "Select an instrument" },
+                               class: "block w-full px-4 py-3 text-base rounded-lg border-2 border-gray-300 shadow-sm transition duration-150 ease-in-out focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500 focus:outline-none" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= form.label :quantity, class: "block text-sm font-semibold text-gray-900 mb-2" do %>
+        Quantity
+        <span class="text-red-500">*</span>
+      <% end %>
+      <%= form.text_field :quantity,
+                          class: "block w-full px-4 py-3 text-base rounded-lg border-2 border-gray-300 shadow-sm transition duration-150 ease-in-out focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500 focus:outline-none",
+                          placeholder: "10.5",
+                          inputmode: "decimal",
+                          autocomplete: "off",
+                          data: {
+                            controller: "number-input",
+                            action: "keydown->number-input#keydown input->number-input#validate blur->number-input#blur"
+                          } %>
+      <p class="mt-2 text-sm text-gray-500">Number of shares or units</p>
+    </div>
+
+    <div>
+      <%= form.label :price, class: "block text-sm font-semibold text-gray-900 mb-2" do %>
+        Price per Unit
+        <span class="text-red-500">*</span>
+      <% end %>
+      <%= form.text_field :price,
+                          class: "block w-full px-4 py-3 text-base rounded-lg border-2 border-gray-300 shadow-sm transition duration-150 ease-in-out focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500 focus:outline-none",
+                          placeholder: "150.75",
+                          inputmode: "decimal",
+                          autocomplete: "off",
+                          data: {
+                            controller: "number-input",
+                            action: "keydown->number-input#keydown input->number-input#validate blur->number-input#blur"
+                          } %>
+      <p class="mt-2 text-sm text-gray-500">Price in your currency</p>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-200">
+    <%= link_to "Cancel",
+                wallet_holdings_path(@wallet),
+                class: "inline-flex justify-center rounded-lg border-2 border-gray-300 bg-white px-6 py-3 text-base font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-150",
+                data: { turbo_frame: "_top" } %>
+    <%= form.submit "Save Transaction",
+                    class: "inline-flex justify-center rounded-lg border-2 border-transparent bg-yellow-500 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-150" %>
+  </div>
+<% end %>
