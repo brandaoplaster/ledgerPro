@@ -13,15 +13,16 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = @wallet.transactions.build(transaction_params)
+    @transaction = TransactionService.new(@wallet, transaction_params).execute
 
-    if @transaction.save
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to transactions_path, notice: "Transaction created successfully!" }
-      end
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @wallet, notice: "Transaction created successfully!"  }
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("transaction_form", partial: "form", locals: { transaction: e.record }) }
+      format.html { render :new, status: :unprocessable_entity }
     end
   end
 
