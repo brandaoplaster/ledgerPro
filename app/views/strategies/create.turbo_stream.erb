@@ -1,0 +1,11 @@
+<%= turbo_stream.append "strategies" do %>
+  <%= render @strategy %>
+<% end %>
+
+<%= turbo_stream.update "modal", "" %>
+
+<%= turbo_stream.update "flash" do %>
+  <div class="bg-green-500 text-white px-6 py-4 rounded-md shadow-lg mb-4 animate-fade-in">
+    ✓ Strategy created successfully!
+  </div>
+<% end %>
