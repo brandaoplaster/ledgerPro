@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div class="border-b border-gray-200 px-6 py-4">
+        <div class="flex justify-between items-center">
+          <h2 class="text-2xl font-bold text-gray-900">Edit Strategy</h2>
+          <%= link_to "✕",
+                      strategies_path,
+                      class: "text-gray-400 hover:text-gray-600 text-2xl font-bold",
+                      data: { turbo_frame: "_top" } %>
+        </div>
+      </div>
+
+      <div class="px-6 py-4">
+        <%= render "form", strategy: @strategy %>
+      </div>
+    </div>
+  </div>
+<% end %>
