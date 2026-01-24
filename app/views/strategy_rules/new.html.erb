@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-gradient-to-r from-yellow-500 to-amber-500 px-8 py-6 flex items-center justify-between">
+        <h2 class="text-3xl font-black text-white">New Strategy Rule</h2>
+        <%= link_to new_strategy_rule_path, class: "text-white hover:bg-white/20 rounded-lg p-2 transition-colors", data: { turbo_frame: "_top" } do %>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        <% end %>
+      </div>
+
+      <div class="px-8 py-6">
+        <%= render "form", strategy_rule: @strategy_rule %>
+      </div>
+    </div>
+  </div>
+<% end %>
