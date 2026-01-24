@@ -9,6 +9,7 @@ class StrategiesController < ApplicationController
 
   def new
     @strategy = Strategy.new
+    @wallets = current_user.wallets
   end
 
   def create
