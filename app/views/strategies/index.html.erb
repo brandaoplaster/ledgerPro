@@ -1,0 +1,45 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+    <div>
+      <h1 class="text-5xl font-black bg-gradient-to-r from-yellow-600 via-yellow-500 to-amber-500 bg-clip-text text-transparent mb-3">My Strategies</h1>
+      <p class="text-gray-500 text-lg font-medium">Manage your investment strategies</p>
+    </div>
+    <%= link_to new_strategy_path,
+                class: "group relative inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white font-bold py-4 px-8 rounded-xl shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:scale-105",
+                data: { turbo_frame: "modal" } do %>
+      <svg class="w-6 h-6 transition-transform group-hover:rotate-90 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
+      New Strategy
+    <% end %>
+  </div>
+  <%= turbo_frame_tag "modal" %>
+  <% if @strategies.any? %>
+    <div id="strategies" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+      <%= render @strategies %>
+    </div>
+  <% else %>
+    <div class="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-dashed border-gray-300 rounded-3xl p-16 text-center">
+      <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-yellow-200 rounded-full opacity-20 blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-amber-200 rounded-full opacity-20 blur-3xl"></div>
+      <div class="relative">
+        <div class="inline-flex p-8 bg-gradient-to-br from-yellow-100 to-amber-100 rounded-3xl mb-6 shadow-lg">
+          <svg class="w-20 h-20 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+          </svg>
+        </div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-3">No strategies registered yet</h3>
+        <p class="text-gray-600 text-lg mb-8 max-w-md mx-auto">Start building your portfolio with a custom investment strategy!</p>
+        <%= link_to new_strategy_path,
+                    class: "group inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white font-bold py-4 px-10 rounded-xl shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:scale-105",
+                    data: { turbo_frame: "modal" } do %>
+          <svg class="w-6 h-6 transition-transform group-hover:rotate-90 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Create First Strategy
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

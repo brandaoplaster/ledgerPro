@@ -1,0 +1,166 @@
+<%= form_with(model: strategy_rule, data: { turbo_frame: "_top" }, class: "space-y-6") do |form| %>
+  <% if strategy_rule.errors[:base].any? %>
+    <div class="bg-red-50 border-2 border-red-200 text-red-800 px-6 py-4 rounded-xl">
+      <ul class="list-disc list-inside">
+        <% strategy_rule.errors[:base].each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :strategy_id, "Strategy", class: "block text-sm font-bold text-gray-700 mb-2" %>
+    <%= form.select :strategy_id,
+                    options_from_collection_for_select(@strategies, :id, :title, strategy_rule.strategy_id),
+                    { prompt: "Select a strategy" },
+                    class: "w-full px-4 py-3 border-2 #{strategy_rule.errors[:strategy_id].any? ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all outline-none" %>
+    <% if strategy_rule.errors[:strategy_id].any? %>
+      <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <%= strategy_rule.errors[:strategy_id].first %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :asset_kind, "Asset Type", class: "block text-sm font-bold text-gray-700 mb-2" %>
+    <%= form.select :asset_kind,
+                    [
+                      ["Stock", "stock"],
+                      ["Cryptocurrency", "crypto"],
+                      ["ETF", "etf"],
+                      ["Bond", "bond"],
+                      ["Real Estate", "real_estate"],
+                      ["Commodity", "commodity"],
+                      ["Other", "other"]
+                    ],
+                    { include_blank: "Select an asset type" },
+                    class: "w-full px-4 py-3 border-2 #{strategy_rule.errors[:asset_kind].any? ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all outline-none" %>
+    <% if strategy_rule.errors[:asset_kind].any? %>
+      <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <%= strategy_rule.errors[:asset_kind].first %>
+      </p>
+    <% end %>
+  </div>
+
+  <div data-controller="rule-type-toggle">
+    <!-- Rule Type: Prohibition or Percentage -->
+    <div>
+      <label class="block text-sm font-bold text-gray-700 mb-3">Rule Type</label>
+      <div class="grid grid-cols-2 gap-4">
+        <label class="relative flex cursor-pointer rounded-lg border-2 border-gray-300 bg-white p-5 shadow-sm hover:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-500 focus-within:ring-offset-2">
+          <%= form.radio_button :rule_type, 'prohibition',
+              checked: strategy_rule.max_percentage.nil?,
+              class: "sr-only peer",
+              data: { action: "change->rule-type-toggle#toggle" } %>
+          <span class="flex flex-1 items-center">
+            <span class="flex flex-col">
+              <span class="block text-base font-semibold text-gray-900">Prohibition</span>
+              <span class="mt-1 text-sm text-gray-500">Do not allow this asset type</span>
+            </span>
+          </span>
+          <svg class="h-6 w-6 text-yellow-600 opacity-0 peer-checked:opacity-100 absolute top-4 right-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </label>
+
+        <label class="relative flex cursor-pointer rounded-lg border-2 border-gray-300 bg-white p-5 shadow-sm hover:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-500 focus-within:ring-offset-2">
+          <%= form.radio_button :rule_type, 'percentage',
+              checked: strategy_rule.max_percentage.present?,
+              class: "sr-only peer",
+              data: { action: "change->rule-type-toggle#toggle" } %>
+          <span class="flex flex-1 items-center">
+            <span class="flex flex-col">
+              <span class="block text-base font-semibold text-gray-900">Percentage</span>
+              <span class="mt-1 text-sm text-gray-500">Set minimum and maximum limits</span>
+            </span>
+          </span>
+          <svg class="h-6 w-6 text-yellow-600 opacity-0 peer-checked:opacity-100 absolute top-4 right-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </label>
+      </div>
+    </div>
+
+    <div id="percentage-fields" class="<%= 'hidden' if strategy_rule.max_percentage.nil? %> space-y-4 bg-gray-50 p-4 rounded-lg border-2 border-gray-200 mt-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :min_percentage, "Minimum Percentage (%)", class: "block text-sm font-bold text-gray-700 mb-2" %>
+          <%= form.number_field :min_percentage,
+                              value: strategy_rule.min_percentage,
+                              step: 0.01,
+                              min: 0,
+                              max: 100,
+                              class: "w-full px-4 py-3 border-2 #{strategy_rule.errors[:min_percentage].any? ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all outline-none",
+                              placeholder: "0.00" %>
+          <% if strategy_rule.errors[:min_percentage].any? %>
+            <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              <%= strategy_rule.errors[:min_percentage].first %>
+            </p>
+          <% else %>
+            <p class="mt-1 text-xs text-gray-500">e.g., 10.00 for 10%</p>
+          <% end %>
+        </div>
+
+        <div>
+          <%= form.label :max_percentage, "Maximum Percentage (%)", class: "block text-sm font-bold text-gray-700 mb-2" %>
+          <%= form.number_field :max_percentage,
+                              value: strategy_rule.max_percentage,
+                              step: 0.01,
+                              min: 0,
+                              max: 100,
+                              class: "w-full px-4 py-3 border-2 #{strategy_rule.errors[:max_percentage].any? ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all outline-none",
+                              placeholder: "0.00" %>
+          <% if strategy_rule.errors[:max_percentage].any? %>
+            <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              <%= strategy_rule.errors[:max_percentage].first %>
+            </p>
+          <% else %>
+            <p class="mt-1 text-xs text-gray-500">e.g., 30.00 for 30%</p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <p class="text-sm text-blue-800">
+          <strong>💡 Tip:</strong> The sum of all maximum percentages should not exceed 100% to avoid conflicts.
+        </p>
+      </div>
+    </div>
+
+    <div id="prohibition-message" class="<%= 'hidden' if strategy_rule.max_percentage.present? %> bg-red-50 border-2 border-red-200 rounded-lg p-4 mt-4">
+      <div class="flex items-start">
+        <svg class="h-6 w-6 text-red-600 mr-3 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <p class="text-sm font-semibold text-red-800">Prohibition Rule Active</p>
+          <p class="text-sm text-red-700 mt-1">
+            This rule will prevent the wallet from having any position in this asset type.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex gap-4 pt-4">
+    <%= form.submit "Save Rule",
+                    class: "flex-1 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer" %>
+    <%= link_to "Cancel",
+                strategy_rules_path,
+                class: "flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 rounded-xl text-center transition-all",
+                data: { turbo_frame: "_top" } %>
+  </div>
+<% end %>
