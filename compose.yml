@@ -50,9 +50,19 @@ services:
     networks:
       - ledger_net
 
+  redis:
+    container_name: ledger_redis
+    image: "redis:latest"
+    command: redis-server
+    volumes:
+      - redis_data:/data
+    networks:
+      - ledger_net
+
 volumes:
   postgres_data:
   gem_cache:
+  redis_data:
 
 networks:
   ledger_net:

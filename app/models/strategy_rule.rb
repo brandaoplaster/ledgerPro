@@ -6,8 +6,8 @@ class StrategyRule < ApplicationRecord
 
   validates :asset_kind, presence: true
   validates :strategy_id, presence: true
-  validate :validate_percentage_rule, if: -> { rule_type == 'percentage' }
-  validate :validate_prohibition_rule, if: -> { rule_type == 'prohibition' }
+  validate :validate_percentage_rule, if: -> { rule_type == "percentage" }
+  validate :validate_prohibition_rule, if: -> { rule_type == "prohibition" }
 
   # Métodos auxiliares
   def prohibition?

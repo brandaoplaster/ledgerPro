@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_31_171800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
     t.index ["instrument_id"], name: "index_holdings_on_instrument_id"
     t.index ["wallet_id", "instrument_id"], name: "index_holdings_on_wallet_id_and_instrument_id", unique: true
     t.index ["wallet_id"], name: "index_holdings_on_wallet_id"
+  end
+
+  create_table "instrument_metrics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.decimal "daily_liquidity", precision: 15, scale: 2
+    t.decimal "dy", precision: 5, scale: 2
+    t.bigint "instrument_id", null: false
+    t.decimal "market_cap", precision: 20, scale: 2
+    t.decimal "p_vp", precision: 5, scale: 2
+    t.decimal "price", precision: 15, scale: 4, null: false
+    t.datetime "recorded_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instrument_id", "recorded_at"], name: "index_instrument_metrics_on_instrument_id_and_recorded_at"
+    t.index ["instrument_id"], name: "index_instrument_metrics_on_instrument_id"
   end
 
   create_table "instruments", force: :cascade do |t|
@@ -91,6 +105,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_031419) do
 
   add_foreign_key "holdings", "instruments"
   add_foreign_key "holdings", "wallets"
+  add_foreign_key "instrument_metrics", "instruments"
   add_foreign_key "strategies", "wallets"
   add_foreign_key "strategy_rules", "strategies"
   add_foreign_key "transactions", "instruments"
