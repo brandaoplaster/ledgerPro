@@ -261,6 +261,10 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.26.4)
+      connection_pool
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -326,6 +330,12 @@ GEM
     securerandom (0.4.1)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
+    sidekiq (7.3.9)
+      base64
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -411,6 +421,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.1)
+  redis (~> 5.3)
   rspec-rails (~> 7.1, >= 7.1.1)
   rubocop (~> 1.69)
   rubocop-performance (~> 1.24)
@@ -419,6 +430,7 @@ DEPENDENCIES
   rubocop-rspec (~> 3.3)
   ruby-lsp
   shoulda-matchers (~> 6.5)
+  sidekiq (~> 7.3)
   simplecov (~> 0.21.2)
   solid_cable
   solid_cache
