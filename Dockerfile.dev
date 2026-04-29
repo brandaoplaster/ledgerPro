@@ -33,9 +33,12 @@ USER appuser
 
 COPY --chown=appuser:appuser Gemfile Gemfile.lock ./
 RUN bundle install
+RUN gem install foreman
 
 COPY --chown=appuser:appuser . .
 
+RUN chmod +x ./script/start.sh
+
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["./script/start.sh"]

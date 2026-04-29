@@ -6,4 +6,4 @@ if [ -f tmp/pids/server.pid ]; then
 fi
 
 bundle exec rails db:prepare
-bundle exec rails server -b 0.0.0.0
+exec bin/dev
