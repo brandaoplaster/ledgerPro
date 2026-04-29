@@ -7,7 +7,9 @@ services:
         USER_ID: ${USER_ID:-1000}
         GROUP_ID: ${GROUP_ID:-1000}
     container_name: ledger
-    command: bash script/start.sh
+    command: ./script/start.sh
+    stdin_open: true
+    tty: true
     depends_on:
       - ledger_db
     ports:
@@ -20,33 +22,16 @@ services:
     networks:
       - ledger_net
 
-  ledger_css:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-      args:
-        USER_ID: ${USER_ID:-1000}
-        GROUP_ID: ${GROUP_ID:-1000}
-    container_name: ledger_css
-    command: bundle exec rails tailwindcss:watch
-    stdin_open: true
-    tty: true
-    volumes:
-      - .:/app
-      - gem_cache:/usr/local/bundle
-    networks:
-      - ledger_net
-
   ledger_db:
-    image: "postgres:13"
+    image: "postgres:17"
     container_name: ledger_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=${PG_USERNAME}
-      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     networks:
       - ledger_net
 
