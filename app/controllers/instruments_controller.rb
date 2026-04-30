@@ -2,7 +2,8 @@ class InstrumentsController < ApplicationController
   before_action :set_instrument, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @instruments = Instrument.all
+    @pagination = PaginationService.new(Instrument, page: params[:page]).call
+    @instruments = @pagination[:records]
   end
 
   def show
