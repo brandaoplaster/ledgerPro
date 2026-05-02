@@ -15,37 +15,33 @@
     <% end %>
   </div>
 
+  <%= render "shared/dashboard/filters", 
+    url: instruments_path,
+    search: { label: "Search", placeholder: "Name or Ticker" },
+    filters: [{ 
+      name: :kind, label: "Type", 
+      options: [["All", ""], ["Stock", "stock"], ["Crypto", "crypto"]]
+    }],
+    sort_options: [["Name", "name"], ["Ticker", "ticker"], ["Date", "created_at"]]
+  %>
+
   <%= turbo_frame_tag "modal" %>
 
   <% if @instruments.any? %>
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full divide-y divide-gray-200">
-          <thead class="bg-gradient-to-r from-yellow-400 to-yellow-500">
-            <tr>
-              <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-                Ticker
-              </th>
-              <th scope="col" class="w-2/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-                Name
-              </th>
-              <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-                Type
-              </th>
-              <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-                Created At
-              </th>
-              <th scope="col" class="w-1/6 px-6 py-4 text-center text-sm font-bold text-white uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
+          <%= render "table_header" %>
+
           <tbody id="instruments" class="bg-white divide-y divide-gray-200">
             <%= render @instruments %>
           </tbody>
         </table>
       </div>
     </div>
+
+    <%= render "shared/dashboard/pagination", pagination: @pagination %>
+
   <% else %>
     <div class="text-center py-12">
       <div class="inline-block p-6 bg-gray-100 rounded-full mb-4">
