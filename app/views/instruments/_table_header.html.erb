@@ -1,58 +1,50 @@
 <%
-  current_sort = params[:sort].presence || "created_at"
-  current_direction = params[:direction].presence || "desc"
+  current_column = params.dig(:order, :column).presence || "created_at"
+  current_direction = params.dig(:order, :direction).presence || "desc"
 %>
 
 <thead class="bg-gradient-to-r from-yellow-400 to-yellow-500">
   <tr>
     <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-      <%= link_to instruments_path(sort: "ticker", direction: current_sort == "ticker" && current_direction == "asc" ? "desc" : "asc"), 
+      <%= link_to instruments_path(order: { column: "ticker", direction: current_column == "ticker" && current_direction == "asc" ? "desc" : "asc" }),
                   class: "flex items-center gap-2 hover:opacity-80 transition-opacity" do %>
         Ticker
-        <% if current_sort == "ticker" %>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="<%= current_direction == "asc" ? "M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" : "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" %>" clip-rule="evenodd"/>
-          </svg>
+        <% if current_column == "ticker" %>
+          <%= icon(current_direction == "asc" ? "arrow_down" : "arrow_up") %>
         <% end %>
       <% end %>
     </th>
-    
+
     <th scope="col" class="w-2/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-      <%= link_to instruments_path(sort: "name", direction: current_sort == "name" && current_direction == "asc" ? "desc" : "asc"), 
+      <%= link_to instruments_path(order: { column: "name", direction: current_column == "name" && current_direction == "asc" ? "desc" : "asc" }),
                   class: "flex items-center gap-2 hover:opacity-80 transition-opacity" do %>
         Name
-        <% if current_sort == "name" %>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="<%= current_direction == "asc" ? "M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" : "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" %>" clip-rule="evenodd"/>
-          </svg>
+        <% if current_column == "name" %>
+          <%= icon(current_direction == "asc" ? "arrow_down" : "arrow_up") %>
         <% end %>
       <% end %>
     </th>
-    
+
     <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-      <%= link_to instruments_path(sort: "kind", direction: current_sort == "kind" && current_direction == "asc" ? "desc" : "asc"), 
+      <%= link_to instruments_path(order: { column: "kind", direction: current_column == "kind" && current_direction == "asc" ? "desc" : "asc" }),
                   class: "flex items-center gap-2 hover:opacity-80 transition-opacity" do %>
         Type
-        <% if current_sort == "kind" %>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="<%= current_direction == "asc" ? "M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" : "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" %>" clip-rule="evenodd"/>
-          </svg>
+        <% if current_column == "kind" %>
+          <%= icon(current_direction == "asc" ? "arrow_down" : "arrow_up") %>
         <% end %>
       <% end %>
     </th>
-    
+
     <th scope="col" class="w-1/6 px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
-      <%= link_to instruments_path(sort: "created_at", direction: current_sort == "created_at" && current_direction == "asc" ? "desc" : "asc"), 
+      <%= link_to instruments_path(order: { column: "created_at", direction: current_column == "created_at" && current_direction == "asc" ? "desc" : "asc" }),
                   class: "flex items-center gap-2 hover:opacity-80 transition-opacity" do %>
         Created At
-        <% if current_sort == "created_at" %>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="<%= current_direction == "asc" ? "M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" : "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" %>" clip-rule="evenodd"/>
-          </svg>
+        <% if current_column == "created_at" %>
+          <%= icon(current_direction == "asc" ? "arrow_down" : "arrow_up") %>
         <% end %>
       <% end %>
     </th>
-    
+
     <th scope="col" class="w-1/6 px-6 py-4 text-center text-sm font-bold text-white uppercase tracking-wider">
       Actions
     </th>
