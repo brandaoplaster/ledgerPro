@@ -96,6 +96,20 @@ docker compose down
 │   ├── controllers/
 │   ├── models/
 │   ├── services/
+│   │   ├── instruments/
+│   │   │   ├── query_service.rb
+│   │   │   ├── create_service.rb
+│   │   │   ├── update_service.rb
+│   │   │   └── metrics_service.rb
+│   │   ├── transactions/
+│   │   │   ├── create_service.rb
+│   │   │   └── query_service.rb
+│   │   ├── wallets/
+│   │   │   └── (futuros services)
+│   │   ├── strategies/
+│   │   │   └── (futuros services)
+│   │   └── shared/
+│   │       └── pagination_service.rb
 │   ├── views/
 │   └── javascript/ (Stimulus)
 ├── config/
