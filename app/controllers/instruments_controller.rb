@@ -2,7 +2,8 @@ class InstrumentsController < ApplicationController
   before_action :set_instrument, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @pagination = PaginationService.new(Instrument, page: params[:page]).call
+    scope = Instruments::FilterService.new(searchable_params).call
+    @pagination = PaginationService.new(scope, page: params[:page]).call
     @instruments = @pagination[:records]
   end
 
@@ -61,5 +62,9 @@ class InstrumentsController < ApplicationController
 
   def instrument_params
     params.require(:instrument).permit(:name, :ticker, :kind)
+  end
+
+  def searchable_params
+    params.permit(:search, :kind, { order: [ :column, :direction ] }, :page, :length)
   end
 end
