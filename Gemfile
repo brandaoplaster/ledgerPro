@@ -49,6 +49,9 @@ gem "redis", "~> 5.3"
 
 gem "pagy", "~> 43.5", ">= 43.5.3"
 
+gem "faraday", "~> 2.14"
+gem "faraday-retry", "~> 2.2"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
