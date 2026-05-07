@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative '../../app/integrations/error_handler'
 
 describe Integrations::ErrorHandler do
   let(:handler) { described_class.new }

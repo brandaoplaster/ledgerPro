@@ -1,6 +1,4 @@
 require 'rails_helper'
-require_relative '../../app/integrations/base'
-require_relative '../../app/integrations/http_client'
 
 describe Integrations::Base do
   let(:base_url) { 'https://api.example.com' }
